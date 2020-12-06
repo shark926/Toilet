@@ -7,6 +7,7 @@
 
 ## 方案
 ### 硬件
+* ![](Doc/board.jpg)
 * 果云科技的Esp32f arduino开发板，使用的是乐鑫的esp32芯片
 * 18650电池，稳压电源还不确定
 ### 传感器
@@ -41,5 +42,6 @@
 ### 2020.12.6
 * 通过实验，果云科技提供的开发文档中环境搭建也不如乐鑫官方的好，主要是sdk目录位置，直接放在开发工程项目里就行了，不需要放在arduino安装目录。
 * 果云科技提供的老sdk是一个带有git信息的文件夹，所以比较方便查看他们在乐鑫的基础上的修改。
-* 更新乐鑫官方sdk，然后把果云科技增加的variant/pins_arduino.h copy到相应位置。果云修改的boards.txt中的内容也copy到对应文件，同时修改esp-32f.upload.tool=esptool_py和esp-32f.build.boot=dio
-* 整理所以资料，上传到github
+* 更新乐鑫官方sdk，然后把果云科技增加的variant/pins_arduino.h copy到相应位置。果云修改的boards.txt中的内容也copy到对应文件，同时修改esp-32f.upload.tool=esptool_py和esp-32f.build.boot=dio。
+* 整理项目，上传到github。
+* 学习了github的pr流程，打算把esp32f的修改推送给乐鑫官方。
