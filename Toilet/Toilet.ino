@@ -5,11 +5,7 @@
 
 using namespace Washlet;
 
-#define WIFISSID "ssid"
-#define Password "password"
-
-//const char *host = "192.168.0.111"; // ip or dns 远程主机ip
-const char *host = "127.0.0.1"; // ip or dns 远程主机ip
+# include "config.h"
 
 const uint16_t hostPort = 8266;         //主机端口
 const uint16_t localPort = 8266;         //主机端口
