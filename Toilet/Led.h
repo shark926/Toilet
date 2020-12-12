@@ -10,8 +10,7 @@ namespace Washlet
         static const uint8_t Red = 27;
         static const uint8_t Blue = 32;
         static const uint8_t Green = 33;
-        //Led();
-        void Init(uint8_t gpio);
+        Led(uint8_t gpio);
         void Flash();
 
     private:

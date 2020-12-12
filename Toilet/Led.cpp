@@ -2,7 +2,7 @@
 
 namespace Washlet
 {
-    void Led::Init(uint8_t gpio)
+    Led::Led(uint8_t gpio)
     {
         this->gpio = gpio;
         pinMode(gpio, OUTPUT);

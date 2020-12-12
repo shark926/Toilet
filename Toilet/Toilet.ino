@@ -1,7 +1,8 @@
 #include "Led.h"
 #include "Net.h"
-#include "Detector.h"
 #include "TouchPad.h"
+#include "MyGpio.h"
+#include "Sleep.h"
 
 using namespace Washlet;
 
@@ -10,63 +11,48 @@ using namespace Washlet;
 const uint16_t hostPort = 8266;         //主机端口
 const uint16_t localPort = 8266;         //主机端口
 
-static const uint8_t DetectorIo0 = 34;
-static const uint8_t DetectorIo1 = 35;
-
 //uint8_t test[6] = {0x41, 0x42, 0x43, 0x44, 0x45, 0x46}; //6个字节的测试数据
 uint8_t state[2] = {0, 0};
-Detector detector0;
-Detector detector1;
-Led touchLed;
-Led workingLed;
-Net* net;
 
-extern EspClass ESP;
+MyGpio* pGpio0;
+//MyGpio pGpio1;
 
+Sleep* pSleep;
+Led* pTouchLed;
+Net* pNet;
+ 
 void setup()
 {
     Serial.begin(115200);
-
-    detector0.Init(DetectorIo0);
-    detector1.Init(DetectorIo1);
-
-    touchLed.Init(Led::Red);
-    workingLed.Init(Led::Green);
-
-    net = new Net(localPort, host, hostPort);
-    net->ConnectRouter(WIFISSID, Password);
-
-    Serial.println("begin sleep");
-    ESP.deepSleep(5000000);
-    // Serial.println("light_sleep_enter");
-    // esp_sleep_enable_timer_wakeup(10000000); //1 seconds
-    // int ret = esp_light_sleep_start();
-    // Serial.printf("light_sleep: %d\n", ret);
     
-    Serial.println("end sleep");
+    pGpio0 = new MyGpio(GPIO_NUM_2, INPUT_PULLDOWN);
+
+    pSleep = new Sleep(pGpio0, HIGH);
+    pSleep->PrintWakeupInfo();
+
+    pTouchLed = new Led(Led::Red);
+
+    pNet = new Net(localPort, host, hostPort);
+    pNet->ConnectRouter(WIFISSID, Password);
 }
 
 void loop()
 {
-    bool touched0 = detector0.CheckState();
-    bool touched1 = detector1.CheckState();
+    bool touched0 = pGpio0->IsHigh();
+    bool touched1 = false;
 
     state[0] = touched0 == true;
     state[1] = touched1 == true;
     
-    
     if(touched0 || touched1)
     {
-        net->Send(state, sizeof(state));
-        touchLed.Flash();
+        pNet->Send(state, sizeof(state));
+        pTouchLed->Flash();
         Serial.println("touched");
     }
     else
     {
-        //用于测试记录电池工作时长
-        net->Send(state, sizeof(state));
-        workingLed.Flash();
-        Serial.println("not touched");
+        pSleep->Start();
     }
     
     delay(1000);
