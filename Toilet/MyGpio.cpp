@@ -18,8 +18,8 @@ namespace Washlet
         return num;
     }
 
-    bool MyGpio::IsHigh() const
+    bool MyGpio::IsLevel(int level) const
     {
-        return digitalRead(num) == HIGH;
+        return digitalRead(num) == level;
     }
 }

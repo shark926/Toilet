@@ -2,14 +2,18 @@
 
 namespace Washlet
 {
-    Sleep::Sleep(MyGpio** pWakeupGpioArray, int count, int level)
+    /**
+     * ESP32 共有5 个Strapping 管脚。
+     * MTDI/GPIO12：内部下拉
+     * GPIO2：内部下拉
+     * GPIO0：内部上拉
+     * MTDO/GPIO15：内部上拉
+     * GPIO5：内部上拉
+    */
+    Sleep::Sleep(gpio_num_t gpio, uint8_t mode, int level)
     {
-        this->pWakeupGpioArray = pWakeupGpioArray;
-
-        for (size_t i = 0; i < count; i++)
-        {
-            esp_sleep_enable_ext0_wakeup(pWakeupGpioArray[i]->GetNum(), level);
-        }
+        pinMode(gpio, mode);
+        esp_sleep_enable_ext0_wakeup(gpio, level);
     }
     
     Sleep::~Sleep()

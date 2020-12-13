@@ -12,6 +12,6 @@ namespace Washlet
         ~MyGpio();
 
         gpio_num_t GetNum() const;
-        bool IsHigh() const;
+        bool IsLevel(int level) const;
     };
 }
