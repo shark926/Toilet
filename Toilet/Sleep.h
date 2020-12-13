@@ -6,7 +6,7 @@ namespace Washlet
     class Sleep
     {
     private:
-        MyGpio* pWakeupGpio;
+        MyGpio** pWakeupGpioArray;
     public:
         /**
          * ESP32 共有5 个Strapping 管脚。
@@ -16,7 +16,7 @@ namespace Washlet
          * MTDO/GPIO15：内部上拉
          * GPIO5：内部上拉
         */
-        Sleep(MyGpio* pWakeupGpio, int level);
+        Sleep(MyGpio** pWakeupGpioArray, int count, int level);
         ~Sleep();
 
         void Start();

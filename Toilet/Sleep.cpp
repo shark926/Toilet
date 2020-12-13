@@ -2,10 +2,14 @@
 
 namespace Washlet
 {
-    Sleep::Sleep(MyGpio* pWakeupGpio, int level)
+    Sleep::Sleep(MyGpio** pWakeupGpioArray, int count, int level)
     {
-        this->pWakeupGpio = pWakeupGpio;
-        esp_sleep_enable_ext0_wakeup(pWakeupGpio->GetNum(), level);
+        this->pWakeupGpioArray = pWakeupGpioArray;
+
+        for (size_t i = 0; i < count; i++)
+        {
+            esp_sleep_enable_ext0_wakeup(pWakeupGpioArray[i]->GetNum(), level);
+        }
     }
     
     Sleep::~Sleep()
